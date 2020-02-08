@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+{% block body %}
+
+  <body>
+    <nav class="navbar navbar-light bg-light navbar-expand-lg">
+      <a class="navbar-brand" href="javascript:location.reload();">Ichi Lab IP Manager</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarItems" aria-controls="navbarItems" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarItems">
+	<div class="navbar-nav">
+	  <div class="nav-item active">
+	    <!-- Modal Forms -->
+            <button class="btn btn-outline-primary" data-toggle="modal" data-target="#AddForms" type="button">Add</button>
+	  </div>
+          <!-- Modal Section -->
+	  <div class="modal fade" id="AddForms" tabindex="-1" role="dialog" aria-labelledby="AddFormsLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <h4 class="modal-title" id="AddFormsLabel">Add New Hosts</h4>
+	          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+	        </div>
+	        <div class="modal-body">
+	          <form action="/add_node" method="post">
+		    <div class="form-group">
+	              <label>IP address</label>
+		      <input type="text" class="form-control" id="formIpAddress" name="formIpAddress" placeholder="Enter IP Address">
+		    </div>
+		    <div class="form-group">
+		      <label>HostName</label>
+		      <input type="text" class="form-control" id="formHostName" name="formHostName" placeholder="Enter Host Name">
+		    </div>
+		    <div class="form-group">
+		      <label>Notes</label>
+		      <input type="text" class="form-control" id="formNotes" name="formNotes" placeholder="Enter Remaks">
+		    </div>
+		    <button type="submit" class="btn btn-primary">Add</button>
+		  </form>
+		</div>
+	        <div class="modal-footer">
+	          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        </div>
+	      </div>
+	    </div>
+          </div>
+          <div class="nav-item">
+	    <!-- Search Box --> 
+            <form class="form-inline">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+	      <button class="btn btn-outline-success" type="submit">Search</button>
+	    </form>
+	  </div>
+        </div>
+      </nav>
+    
+    <div class="container-fluid">
+      {% for category, message in get_flashed_messages(with_categories=true) %}
+      <div class="{{ category }}">{{ message }}</div>
+      {% endfor %}
+
+      <div class="row">
+        <div class="col">
+	  <table class="table table-striped">
+	  <thead><tr>
+	    <th>IP Address</th><th>HostName</th><th>Notes</th><th></th>
+	  </tr></thead>
+	  {% for d in data %}
+	  <thead><tr>
+	    <td>{{ d[0] }}</td><td>{{ d[1] }}</td><td>{{ d[2] }}</td>
+	    <td>
+              <a href="{{ url_for('delete_node', node_ip=d[0]) }}" class="text-danger">Delete</a>&emsp;
+	      <a href="{{ url_for('edit_node', node_ip=d[0]) }}" class="text-info">Update</a>
+	    </td>
+	  </tr></thead>
+	  {% endfor %}
+	  </table>
+	</div>
+      </div>
+    </div>
+
+{% endblock %}

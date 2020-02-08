@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block body %}
+<body>
+  <div class="container-fluid">
+    <h1>対象ホストの削除の確認</h1>
+    <p>{{ node_ip }}を本当に削除しますか？</p>
+
+    <form method="post">
+      <button type="submit" class="btn btn-primary">対象Hostの削除</button>
+    </form>
+  </div>
+</body>
+{% endblock %}
